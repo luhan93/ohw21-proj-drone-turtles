@@ -10,6 +10,5 @@ setup(
     author="Ocean Hack Week 2021",
     long_description=long_description,
     packages=find_packages(),
-    install_requires=["keras"]
+    install_requires=["keras", "numpy"],
 )
-
