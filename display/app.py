@@ -17,18 +17,20 @@ jumbotron = dbc.Jumbotron(
     [
         html.H1("Turtle Detection using Deep Learning", className="display-3"),
         html.P(
-            "Johnathan Evanilla, Lu Han, Alex Kerney, Daria Micovic, Alejandra Ortiz, Camille Ross, Dwight Sablan, John Stanco",
+            "Johnathan Evanilla, Lu Han, Alex Kerney, Daria Micovic, Alejandra Ortiz, Yelena Randall, Camille Ross, Dwight Sablan, John Stanco",
             className="lead",
         ),
 
         html.P(
-            "The housing market in the U.S is blooming since last year. "
-            "Due to Covid, the supply dropped as the demand rose. "
-            "Home prices nationwide were up 26.3% year-over-year in May. "
-            "At the same time, the number of homes sold rose 45.9% and the number of homes for sale fell 46.4%. "
-            "New constructions can help close the nation's housing shortage. "
-            "Number of new construction permits issued can serve as a indicator on the supply end. "
-            "This dashboard provides some visualization on the amount of new construction permits in each month since 2004 in 50 states. "
+            "Thanks to technical advancements in drones and autonomous underwater vehicles, "
+			"we are now able to capture large amounts of data from marine environments. "
+			"However, on eof the major limiting factors is the human-power it takes to "
+			"label datasets of such size. With deep learning, the task of classification "
+			"can be automated with high accuracy. Here, we present results using YOLOv3 to "
+			"classify turtles, sharks and dolphins from drone images. The network is trained "
+			"and validated on a manually-labeled dataset from Nick Mortimer at CSIRO. The labels "
+			"are in the form of bounding boxes around target species defined by expert analysts."
+			
         ),
         # html.P(dbc.Button("Learn more", color="primary"), className="lead"),
     ],className="bg-primary text-white"
