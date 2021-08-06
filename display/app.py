@@ -10,8 +10,10 @@ from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import flask
 
+
 app = dash.Dash(name='app',  external_stylesheets=[dbc.themes.FLATLY])
 server = app.server
+
 
 jumbotron = dbc.Jumbotron(
     [
@@ -26,16 +28,18 @@ jumbotron = dbc.Jumbotron(
 			"we are now able to capture large amounts of data from marine environments. "
 			"However, on eof the major limiting factors is the human-power it takes to "
 			"label datasets of such size. With deep learning, the task of classification "
-			"can be automated with high accuracy. Here, we present results using YOLOv3 to "
+			"can be automated with high accuracy. Here, we present results using YOLOv5 to "
 			"classify turtles, sharks and dolphins from drone images. The network is trained "
 			"and validated on a manually-labeled dataset from Nick Mortimer at CSIRO. The labels "
 			"are in the form of bounding boxes around target species defined by expert analysts."
-			
         ),
         # html.P(dbc.Button("Learn more", color="primary"), className="lead"),
     ],className="bg-primary text-white"
 )
+
+
 species = ['turtle','shark','dolphin']
+
 species_slt = html.Div(children=[
     html.Label(['Select a Species:'], style={'font-weight': 'bold', "text-align": "center"}),
     dcc.Dropdown(
@@ -110,30 +114,26 @@ slider = html.Div(children=[
             0: '0',
             0.5: '0.5',
             1: '1',
-
         },
         tooltip = { 'always_visible': True,
                     'placement':'bottom'}
     ),
 ],style={'marginLeft': 70,"width":"80%"}),
 
+                           
 app.layout = html.Div(
     [jumbotron,
      dbc.Row([
          dbc.Col(
              html.Div(id="left_column",
                       children = [
-                          dcc.Graph(id="human",
-                                    figure = go.Figure()),
-                          image_nav
+                          html.Img(src=app.get_asset_url('val_batch0_labels.jpg')),
                       ]),width={'size':6}),
          dbc.Col(
              [html.Div(id="right_column",
                        children = [
-                           dcc.Graph(id="yolo",
-                                     figure = go.Figure()
-                                     ),
-                           dbc.Row(slider)
+                           html.Iframe(src='https://www.youtube.com/embed/VgZEfYVkSmw', width = 500, height= 500),
+                           
                        ]),
 
               ]
@@ -144,5 +144,7 @@ app.layout = html.Div(
      ]
 )
 
+
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=False)
+
