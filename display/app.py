@@ -34,8 +34,7 @@ jumbotron = dbc.Jumbotron(
 			"label datasets of such size. With deep learning, the task of classification "
 			"can be automated with high accuracy. Here, we present results using YOLOv5 to "
 			"classify turtles, sharks and dolphins from drone images. The network is trained "
-			"with images from Nick Mortimer at CSIRO and we manually labelled 450 images using makesense.ai. The labels "
-			"are in the form of bounding boxes around target species defined by expert analysts."
+			"with images from Nick Mortimer at CSIRO and we manually labelled 450 images using makesense.ai."
                         ),
                     ], style={'marginBottom': -60, 'marginTop': -10, 'fontSize': 12})
                 ]
@@ -130,15 +129,22 @@ slider = html.Div(children=[
 fileList = os.listdir("assets")
 fig_gt = px.imshow(io.imread(os.path.join("assets",fileList[0])), binary_backend="jpg")
 fig_yolo = px.imshow(io.imread(os.path.join("assets",fileList[1])), binary_backend="jpg")
+fig_simple = px.imshow(io.imread(os.path.join("assets",fileList[2])), binary_backend="png")
+fig_adv = px.imshow(io.imread(os.path.join("assets",fileList[3])), binary_backend="png")
+
+fig_gt.update_xaxes(showticklabels=False,showgrid=False)
+fig_gt.update_yaxes(showticklabels=False,showgrid=False)
+fig_yolo.update_xaxes(showticklabels=False,showgrid=False)
+fig_yolo.update_yaxes(showticklabels=False,showgrid=False)
+fig_simple.update_xaxes(showticklabels=False,showgrid=False)
+fig_simple.update_yaxes(showticklabels=False,showgrid=False)
+fig_adv.update_xaxes(showticklabels=False,showgrid=False)
+fig_adv.update_yaxes(showticklabels=False,showgrid=False)
 
 display_gt =  dbc.Card(
     id="display_gt",
     children=[
-<<<<<<< HEAD
         dbc.CardHeader(html.H4("Manual Labels")),
-=======
-        dbc.CardHeader(html.H4("Ground truth")),
->>>>>>> 8991bbd23bc741152bfacd2075cc3852d8ac95e2
         dbc.CardBody(
             [
                 dcc.Graph(id="gt",
@@ -167,11 +173,63 @@ display_vid = dbc.Card(
         dbc.CardHeader(html.H4("Results")),
         dbc.CardBody(
             [
-<<<<<<< HEAD
                 html.Iframe(src='https://www.youtube.com/embed/VgZEfYVkSmw', width = 900, height = 500),
-=======
-                html.Iframe(src='https://www.youtube.com/embed/VgZEfYVkSmw', width = 500, height= 500),
->>>>>>> 8991bbd23bc741152bfacd2075cc3852d8ac95e2
+            ]),
+        #dbc.CardFooter()
+    ]
+)
+
+display_ex_simple = dbc.Card(
+    id="display_simple",
+    children=[
+        #dbc.CardHeader(html.H4("YOLOv5, explained")),
+        dbc.CardBody(
+            [
+                dcc.Graph(id="simple",
+                          figure=fig_simple,
+                          style={'height': 500}),
+            ]),
+        #dbc.CardFooter()
+    ]
+)
+
+display_ex_adv = dbc.Card(
+    id="display_adv",
+    children=[
+        #dbc.CardHeader(html.H4("Results")),
+        dbc.CardBody(
+            [
+                dcc.Graph(id="adv",
+                          figure=fig_adv,
+                          style={'height': 900}),
+            ]),
+        #dbc.CardFooter()
+    ]
+)
+
+
+display_ex = dbc.Card(
+    id="display_ex",
+    children=[
+        dbc.CardHeader(html.H4("YOLOv5, explained")),
+        dbc.CardBody(
+            [
+                html.Div(
+                    [
+                        html.P(
+                            "YOLO (you only look once) is an object detection model originally started in 2016 "
+                            "up to v5 at the moment (originally using tensorflow, our version on pytorch) "
+                            "It employs Darknet as feature extraction via convolutional neural network. To run it, "
+                            "you must give it a series of labeled images for training, the software will resize and "
+                            "reshape all images to multiples of 32. Once you’ve trained the model (see Johnathan’s "
+                            "presentation yesterday), you can feed it an image. It then applies a grid onto the "
+                            "image, outputs a prediction of the box coordinates, the probability (confidence score) "
+                            "for each class (potential thing to classify i.e. human or butterfly) at three different "
+                            "scales. From our end, we get back an image with multiple boxes on it for each object it "
+                            "detects with a confidence score of what that object is. "
+
+                        ),
+                    ], style={'marginBottom': 10, 'marginLeft': 50, 'marginRight':50, 'fontSize': 12})
             ]),
         #dbc.CardFooter()
     ]
@@ -196,9 +254,17 @@ app.layout = html.Div(
          )]),
      dbc.Row([
             display_vid,
-     ], style={'marginTop': 20},justify="center",)
+     ], style={'marginTop': 20},justify="center",),
+     dbc.Row([
+         display_ex
+     ], style={'marginTop': 20}, justify="center"),
+    dbc.Row([
+                display_ex_simple
+            ], style={'marginTop': 20},justify="center"),
+    dbc.Row([
 
-
+        display_ex_adv
+    ], style={'marginTop': 20,'height':900},justify="center")
 
      ]
 )
