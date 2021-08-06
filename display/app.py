@@ -231,7 +231,6 @@ display_ex = dbc.Card(
                         ),
                     ], style={'marginBottom': 10, 'marginLeft': 50, 'marginRight':50, 'fontSize': 12})
             ]),
-        #dbc.CardFooter()
     ]
 )
 app.layout = html.Div(
