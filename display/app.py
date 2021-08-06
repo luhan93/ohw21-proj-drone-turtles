@@ -17,13 +17,16 @@ server = app.server
 
 jumbotron = dbc.Jumbotron(
     [
-        html.H1("Turtle Detection using Deep Learning", className="display-3"),
-        html.P(
-            "Johnathan Evanilla, Lu Han, Alex Kerney, Daria Micovic, Alejandra Ortiz, Yelena Randall, Camille Ross, Dwight Sablan, John Stanco",
-            className="lead",
-        ),
-
-        html.P(
+        dbc.Container(
+            [
+                html.H1("TURTLE DETECTION USING DEEP LEARNING", className="display-5"),
+                html.P(
+                    "Johnathan Evanilla, Lu Han, Alex Kerney, Daria Micovic, Alejandra Ortiz, Yelena Randall, Camille Ross, Dwight Sablan, John Stanco",
+                    className="lead",
+                ),
+                html.Div(
+                    [
+                        html.P(
             "Thanks to technical advancements in drones and autonomous underwater vehicles, "
 			"we are now able to capture large amounts of data from marine environments. "
 			"However, on eof the major limiting factors is the human-power it takes to "
@@ -32,10 +35,13 @@ jumbotron = dbc.Jumbotron(
 			"classify turtles, sharks and dolphins from drone images. The network is trained "
 			"and validated on a manually-labeled dataset from Nick Mortimer at CSIRO. The labels "
 			"are in the form of bounding boxes around target species defined by expert analysts."
-        ),
-        # html.P(dbc.Button("Learn more", color="primary"), className="lead"),
-    ],className="bg-primary text-white"
+                        ),
+                    ], style={'marginBottom': -60, 'marginTop': -10, 'fontSize': 12})
+                ]
+        )
+                    ],className="bg-primary text-white",style={'marginBottom': 5,'marginTop':-50}
 )
+
 
 
 species = ['turtle','shark','dolphin']
