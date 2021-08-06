@@ -134,11 +134,7 @@ fig_yolo = px.imshow(io.imread(os.path.join("assets",fileList[1])), binary_backe
 display_gt =  dbc.Card(
     id="display_gt",
     children=[
-<<<<<<< HEAD
         dbc.CardHeader(html.H4("Manual Labels")),
-=======
-        dbc.CardHeader(html.H4("Ground truth")),
->>>>>>> 8991bbd23bc741152bfacd2075cc3852d8ac95e2
         dbc.CardBody(
             [
                 dcc.Graph(id="gt",
@@ -167,11 +163,7 @@ display_vid = dbc.Card(
         dbc.CardHeader(html.H4("Results")),
         dbc.CardBody(
             [
-<<<<<<< HEAD
                 html.Iframe(src='https://www.youtube.com/embed/VgZEfYVkSmw', width = 900, height = 500),
-=======
-                html.Iframe(src='https://www.youtube.com/embed/VgZEfYVkSmw', width = 500, height= 500),
->>>>>>> 8991bbd23bc741152bfacd2075cc3852d8ac95e2
             ]),
         #dbc.CardFooter()
     ]
