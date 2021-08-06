@@ -6,8 +6,6 @@
 *.tif
 *.tiff
 *.heic
-*.JPG
-*.JPEG
 *.PNG
 *.BMP
 *.TIF
@@ -23,7 +21,6 @@
 !cfg/yolov3*.cfg
 
 storage.googleapis.com
-runs/*
 data/*
 !data/hyps/*
 !data/images/zidane.jpg
