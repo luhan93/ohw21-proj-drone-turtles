@@ -1,0 +1,12 @@
+pandas
+numpy
+plotly.express
+plotly.graph_objects
+plotly.subplots
+dash
+dash_core_components
+dash_bootstrap_components
+flask
+os
+gunicorn
+django-heroku
