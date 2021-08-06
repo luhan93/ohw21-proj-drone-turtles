@@ -9,7 +9,8 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import flask
-
+import os
+from skimage import io
 
 app = dash.Dash(name='app',  external_stylesheets=[dbc.themes.FLATLY])
 server = app.server
@@ -126,25 +127,34 @@ slider = html.Div(children=[
     ),
 ],style={'marginLeft': 70,"width":"80%"}),
 
-                           
+fileList = os.listdir("assets")
+fig_human = px.imshow(io.imread(os.path.join("assets",fileList[0])), binary_backend="jpg")
+fig_yolo = px.imshow(io.imread(os.path.join("assets",fileList[1])), binary_backend="jpg")
+
 app.layout = html.Div(
     [jumbotron,
      dbc.Row([
          dbc.Col(
              html.Div(id="left_column",
                       children = [
-                          html.Img(src=app.get_asset_url('val_batch0_labels.jpg')),
+                            dcc.Graph(id="human",
+                                    figure = fig_human),
+                          #html.Img(src=app.get_asset_url('val_batch0_labels.jpg')),
                       ]),width={'size':6}),
          dbc.Col(
              [html.Div(id="right_column",
                        children = [
-                           html.Iframe(src='https://www.youtube.com/embed/VgZEfYVkSmw', width = 500, height= 500),
-                           
+                           dcc.Graph(id="yolo",
+                                     figure=fig_yolo),
                        ]),
 
               ]
              ,width={'size':6}
          )]),
+     dbc.Row([
+            html.Iframe(src='https://www.youtube.com/embed/VgZEfYVkSmw', width = 500, height= 500),
+     ], justify="center",)
+
 
 
      ]
