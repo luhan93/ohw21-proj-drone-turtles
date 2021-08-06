@@ -34,7 +34,7 @@ jumbotron = dbc.Jumbotron(
 			"label datasets of such size. With deep learning, the task of classification "
 			"can be automated with high accuracy. Here, we present results using YOLOv5 to "
 			"classify turtles, sharks and dolphins from drone images. The network is trained "
-			"and validated on a manually-labeled dataset from Nick Mortimer at CSIRO. The labels "
+			"with images from Nick Mortimer at CSIRO and we manually labelled 450 images using makesense.ai. The labels "
 			"are in the form of bounding boxes around target species defined by expert analysts."
                         ),
                     ], style={'marginBottom': -60, 'marginTop': -10, 'fontSize': 12})
@@ -128,32 +128,67 @@ slider = html.Div(children=[
 ],style={'marginLeft': 70,"width":"80%"}),
 
 fileList = os.listdir("assets")
-fig_human = px.imshow(io.imread(os.path.join("assets",fileList[0])), binary_backend="jpg")
+fig_gt = px.imshow(io.imread(os.path.join("assets",fileList[0])), binary_backend="jpg")
 fig_yolo = px.imshow(io.imread(os.path.join("assets",fileList[1])), binary_backend="jpg")
 
+display_gt =  dbc.Card(
+    id="display_gt",
+    children=[
+        dbc.CardHeader(html.H4("Manual Labels")),
+        dbc.CardBody(
+            [
+                dcc.Graph(id="gt",
+                figure = fig_gt),
+            ]),
+        #dbc.CardFooter()
+    ]
+)
+
+display_yolo =  dbc.Card(
+    id="display_yolo",
+    children=[
+        dbc.CardHeader(html.H4("YOLOv5 Prediction")),
+        dbc.CardBody(
+            [
+                dcc.Graph(id="yolo",
+                figure = fig_yolo),
+            ]),
+        #dbc.CardFooter()
+    ]
+)
+
+display_vid = dbc.Card(
+    id="display_vid",
+    children=[
+        dbc.CardHeader(html.H4("Results")),
+        dbc.CardBody(
+            [
+                html.Iframe(src='https://www.youtube.com/embed/VgZEfYVkSmw', width = 900, height = 500),
+            ]),
+        #dbc.CardFooter()
+    ]
+)
 app.layout = html.Div(
     [jumbotron,
      dbc.Row([
          dbc.Col(
              html.Div(id="left_column",
                       children = [
-                            dcc.Graph(id="human",
-                                    figure = fig_human),
+                        display_gt
                           #html.Img(src=app.get_asset_url('val_batch0_labels.jpg')),
                       ]),width={'size':6}),
          dbc.Col(
              [html.Div(id="right_column",
                        children = [
-                           dcc.Graph(id="yolo",
-                                     figure=fig_yolo),
+                           display_yolo,
                        ]),
 
               ]
              ,width={'size':6}
          )]),
      dbc.Row([
-            html.Iframe(src='https://www.youtube.com/embed/VgZEfYVkSmw', width = 500, height= 500),
-     ], justify="center",)
+            display_vid,
+     ], style={'marginTop': 20},justify="center",)
 
 
 
