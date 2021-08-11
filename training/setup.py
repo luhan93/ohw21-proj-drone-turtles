@@ -9,7 +9,7 @@ setup(
     version="0.1.0",
     author="Ocean Hack Week 2021",
     long_description=long_description,
+    entry_points={"console_scripts": ["yolo=yolohw.train:main"]},
     packages=find_packages(),
-    install_requires=["keras"]
+    install_requires=["keras", "numpy"],
 )
-

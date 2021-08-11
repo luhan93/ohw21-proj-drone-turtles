@@ -1,0 +1,2 @@
+[submodule "model_yolov5/"]
+	branch = model
