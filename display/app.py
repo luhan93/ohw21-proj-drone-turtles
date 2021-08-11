@@ -28,13 +28,13 @@ jumbotron = dbc.Jumbotron(
                 html.Div(
                     [
                         html.P(
-            "Thanks to technical advancements in drones and autonomous underwater vehicles, "
-			"we are now able to capture large amounts of data from marine environments. "
-			"However, on eof the major limiting factors is the human-power it takes to "
-			"label datasets of such size. With deep learning, the task of classification "
-			"can be automated with high accuracy. Here, we present results using YOLOv5 to "
-			"classify turtles, sharks and dolphins from drone images. The network is trained "
-			"with images from Nick Mortimer at CSIRO and we manually labelled 450 images using makesense.ai."
+                        "Thanks to technical advancements in drones and autonomous underwater vehicles, "
+                        "we are now able to capture large amounts of data from marine environments. "
+                        "However, the major limiting factors is the human-power it takes to "
+                        "label datasets of such size. With deep learning, the task of classification "
+                        "can be automated with high accuracy. Here, we present results using YOLOv5 to "
+                        "classify and localize turtles from drone images. The network is trained "
+                        "with images from Nick Mortimer at CSIRO and we manually labelled 450 images using makesense.ai."
                         ),
                     ], style={'marginBottom': -60, 'marginTop': -10, 'fontSize': 12})
                 ]
@@ -126,11 +126,11 @@ slider = html.Div(children=[
     ),
 ],style={'marginLeft': 70,"width":"80%"}),
 
-fileList = os.listdir("assets")
-fig_gt = px.imshow(io.imread(os.path.join("assets",fileList[0])), binary_backend="jpg")
-fig_yolo = px.imshow(io.imread(os.path.join("assets",fileList[1])), binary_backend="jpg")
-fig_simple = px.imshow(io.imread(os.path.join("assets",fileList[2])), binary_backend="png")
-fig_adv = px.imshow(io.imread(os.path.join("assets",fileList[3])), binary_backend="png")
+fileList = sorted(os.listdir("assets"))
+fig_gt = px.imshow(io.imread(os.path.join("assets",fileList[2])), binary_backend="jpg")
+fig_yolo = px.imshow(io.imread(os.path.join("assets",fileList[3])), binary_backend="jpg")
+fig_simple = px.imshow(io.imread(os.path.join("assets",fileList[0])), binary_backend="png")
+fig_adv = px.imshow(io.imread(os.path.join("assets",fileList[1])), binary_backend="png")
 
 fig_gt.update_xaxes(showticklabels=False,showgrid=False)
 fig_gt.update_yaxes(showticklabels=False,showgrid=False)
@@ -145,11 +145,7 @@ display_gt =  dbc.Card(
     id="display_gt",
     children=[
         dbc.CardHeader(html.H4("Manual Labels")),
-        dbc.CardBody(
-            [
-                dcc.Graph(id="gt",
-                figure = fig_gt),
-            ]),
+        dbc.CardImg(src="/assets/val_batch0_labels.jpg", bottom=True),
         #dbc.CardFooter()
     ]
 )
@@ -158,11 +154,7 @@ display_yolo =  dbc.Card(
     id="display_yolo",
     children=[
         dbc.CardHeader(html.H4("YOLOv5 Prediction")),
-        dbc.CardBody(
-            [
-                dcc.Graph(id="yolo",
-                figure = fig_yolo),
-            ]),
+        dbc.CardImg(src="/assets/val_batch0_pred.jpg", bottom=True),
         #dbc.CardFooter()
     ]
 )
@@ -170,105 +162,93 @@ display_yolo =  dbc.Card(
 display_vid = dbc.Card(
     id="display_vid",
     children=[
-        dbc.CardHeader(html.H4("Results")),
+        dbc.CardHeader(html.H4("Happy Turtle Video")),
         dbc.CardBody(
             [
-                html.Iframe(src='https://www.youtube.com/embed/VgZEfYVkSmw', width = 900, height = 500),
+                html.Iframe(src='https://www.youtube.com/embed/VgZEfYVkSmw',
+                            style={"height": "700px", "width": "100%"}),
             ]),
         #dbc.CardFooter()
     ]
 )
 
-display_ex_simple = dbc.Card(
-    id="display_simple",
-    children=[
-        #dbc.CardHeader(html.H4("YOLOv5, explained")),
-        dbc.CardBody(
-            [
-                dcc.Graph(id="simple",
-                          figure=fig_simple,
-                          style={'height': 500}),
-            ]),
-        #dbc.CardFooter()
-    ]
-)
+display_ex_plot = html.Div(
+                        [
+                            html.Img(src="/assets/YoloExplain_2.png",
+                                     style={ 'width':'80%'}),
+                        ]),
 
-display_ex_adv = dbc.Card(
-    id="display_adv",
-    children=[
-        #dbc.CardHeader(html.H4("Results")),
-        dbc.CardBody(
-            [
-                dcc.Graph(id="adv",
-                          figure=fig_adv,
-                          style={'height': 900}),
-            ]),
-        #dbc.CardFooter()
-    ]
-)
+display_ex_text = html.Div(
+                        [
+                            html.P(
+                                "Object detection is a task in computer vision that involves identifying the presence, "
+                                "location, and type of one or more objects in a given photograph."
+                                "It is a challenging problem that involves building upon methods for object recognition "
+                                "(e.g. where are they), object localization (e.g. what are their extent), and object "
+                                "classification (e.g. what are they)."
+                                "In recent years, deep learning techniques are achieving state-of-the-art results for "
+                                "object detection, such as on standard benchmark datasets and in computer vision competitions. "
+                                "YOLO originally started in 2016 up to v5 at the moment. "
+                                "The approach involves a single convolutional neural network (CNN) that splits the input "
+                                "into a grid of cells and each cell directly predicts a bounding box and object classification. "
+                                "The result is a large number of candidate bounding boxes that are consolidated into a "
+                                "final prediction by a post-processing step, using non-max suppression. "
+                                "In this project, we implemented YOLOv5 in Pytorch, trained the model with 450 drone "
+                                "taken turtle images, and successfully detected the turtle in a drone taken video."
+
+                            ),
+                        ], style={ 'fontSize': 12}),
 
 
 display_ex = dbc.Card(
     id="display_ex",
     children=[
-        dbc.CardHeader(html.H4("YOLOv5, explained")),
+        dbc.CardHeader(html.H4("YOLO (You Only Look Once)")),
+        dbc.CardImg(src="/assets/yoloex.png", bottom=True),
         dbc.CardBody(
-            [
-                html.Div(
-                    [
-                        html.P(
-                            "YOLO (you only look once) is an object detection model originally started in 2016 "
-                            "up to v5 at the moment (originally using tensorflow, our version on pytorch) "
-                            "It employs Darknet as feature extraction via convolutional neural network. To run it, "
-                            "you must give it a series of labeled images for training, the software will resize and "
-                            "reshape all images to multiples of 32. Once you’ve trained the model (see Johnathan’s "
-                            "presentation yesterday), you can feed it an image. It then applies a grid onto the "
-                            "image, outputs a prediction of the box coordinates, the probability (confidence score) "
-                            "for each class (potential thing to classify i.e. human or butterfly) at three different "
-                            "scales. From our end, we get back an image with multiple boxes on it for each object it "
-                            "detects with a confidence score of what that object is. "
-
-                        ),
-                    ], style={'marginBottom': 10, 'marginLeft': 50, 'marginRight':50, 'fontSize': 12})
-            ]),
+            display_ex_text
+            ),
     ]
 )
 app.layout = html.Div(
     [jumbotron,
-     dbc.Row([
+    dbc.Row([
+             display_ex
+         ], style={'marginTop': 20,'marginLeft': 20,'marginRight': 20}, justify="center"),
+    dbc.Row([
          dbc.Col(
              html.Div(id="left_column",
                       children = [
                         display_gt
                           #html.Img(src=app.get_asset_url('val_batch0_labels.jpg')),
-                      ]),width={'size':6}),
+                      ],style={'marginTop': 20,'marginLeft': 20}),width={'size':6}),
          dbc.Col(
              [html.Div(id="right_column",
                        children = [
                            display_yolo,
-                       ]),
+                       ],style={'marginTop': 20,'marginRight': 20}),
 
               ]
              ,width={'size':6}
          )]),
      dbc.Row([
-            display_vid,
+           dbc.Col(html.Div(id="video",
+                      children = [
+                        display_vid
+                          #html.Img(src=app.get_asset_url('val_batch0_labels.jpg')),
+                      ],style={'marginTop': 20,'marginLeft': 20,'marginRight': 20}),width={'size':12})
      ], style={'marginTop': 20},justify="center",),
-     dbc.Row([
-         display_ex
-     ], style={'marginTop': 20}, justify="center"),
-    dbc.Row([
-                display_ex_simple
-            ], style={'marginTop': 20},justify="center"),
-    dbc.Row([
 
-        display_ex_adv
-    ], style={'marginTop': 20,'height':900},justify="center")
+    # dbc.Row([
+    #             dbc.Col(display_ex_simple,width=4),
+    #             dbc.Col(display_ex_adv,width=8),
+    #         ], style={'marginTop': 20},justify="center"),
+
 
      ]
 )
 
 
 if __name__ == "__main__":
-    app.run_server(debug=False)
+    app.run_server(debug=True)
 
